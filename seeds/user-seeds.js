@@ -14,7 +14,7 @@ const userData = [
     lastname: 'Gaitan',
     email: 'fiamag@yahoo.com',
     password: 'lovmefat',
-    allergy: 'peanut',
+    allergy: 'nuts',
     fdish: 'queso'
   },
 ];
