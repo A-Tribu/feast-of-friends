@@ -7,17 +7,19 @@ router.get('/', (req, res) => {
   res.render('login');
 });
 
-
+router.get('/dashboard', (req,res)=>{
+  res.render('dashboard')
+})
 
 
 // login route
-// router.get('/login', (req, res) => {
-//   if (req.session.loggedIn) {
-//     res.redirect('/');
-//     return;
-//   }
+router.get('/login', (req, res) => {
+  if (req.session.loggedIn) {
+    res.redirect('/');
+    return;
+  }
 
-//   res.render('login');
-// });
+  res.render('login');
+});
 
 module.exports = router;
