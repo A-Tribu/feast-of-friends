@@ -8,7 +8,7 @@ const dishRoutes = require('./api/dish-routes');
 
 router.use('/', homeRoutes);
 router.use('/api', apiRoutes);
-//router.use('/api/dish-routes', dishRoutes);
+//git strouter.use('/api/dish-routes', dishRoutes);
 // router.use('/api/event-routes', eventRoutes);
 // router.use('/api/dashboard',dashboardRoutes);
 
