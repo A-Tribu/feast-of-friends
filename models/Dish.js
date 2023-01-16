@@ -29,10 +29,14 @@ Dish.init(
         key: 'id',
       },
     },
+    // has_nuts: {
+    //   type: DataTypes.BOOLEAN,
+    // },
   },
   {
     sequelize,
     timestamps: false,
+    // underscored: true,
     freezeTableName: true,
     modelName: 'dish',
   }
