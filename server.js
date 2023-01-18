@@ -4,7 +4,7 @@ const express = require('express');
 const exphbs = require('express-handlebars');
 const session = require('express-session');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
-var helpers = require('handlebars-helpers')();
+const helpers = require('handlebars-helpers')();
 
 // routes / database
 const routes = require('./controllers');
@@ -35,7 +35,7 @@ const sess = {
 app.use(session(sess));
 
 // format time for handlebars
-const helpers = require('./utils/helpers'); 
+//const helpers = require('./utils/helpers'); 
 
 // get handlebars
 const hbs = exphbs.create({ helpers }); // { helpers }

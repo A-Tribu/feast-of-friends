@@ -33,29 +33,24 @@ const signupFormHandler = async (event) => {
     const lastName = document.querySelector('#signup-lname').value.trim();
     const email = document.querySelector('#signup-email').value.trim();
     const password = document.querySelector('#signup-password').value.trim();
-    //const favDish = document.querySelector('#signup-favdish').value.trim();
-    // const allergies = document.querySelectorAll('signup-allergies');
-    // let allergiesList = [];
-    
-    // let checkboxValue;
-    // allergies.forEach((i) => {
-    //   if (allergies[i].checked) {
-    //     checkboxValue = allergies[i].value;
-    //   } 
-    //   allergiesList.push(checkboxValue);
-    // });
-    //console.log(allergiesList);   
-    console.log('line 48 sigunup.js',firstName, lastName, email, password);
+    const fdish = document.querySelector('#signup-favdish').value.trim();
+    const allergies = document.querySelectorAll('.signup-allergies:checked');
+
+    let allergiesList = [];
+
+    for (let i=0; i < allergies.length; i++) {
+        allergiesList.push(allergies[i].value); 
+    }    
+
+    const allergy = allergiesList.toString();
 
     if (firstName && lastName && email && password) {
-      //console.log(JSON.stringify({ firstName, lastName, email, password, allergiesList, favDish }))
+      
       const result = await fetch('/api/user/signup', {
         method: 'POST',
-        body: JSON.stringify({ firstName, lastName, email, password }),
+        body: JSON.stringify({ firstName, lastName, email, password, allergy, fdish }),
         headers: { 'Content-Type': 'application/json' },
       });
-
-      console.log(result);
 
       if (result.ok) {
         document.location.replace('/dashboard');
