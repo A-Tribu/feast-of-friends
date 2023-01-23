@@ -1,11 +1,10 @@
 const router = require('express').Router();
 const multer = require('multer');
-const { User } = require('../../models');
-const withAuth = require('../../utils/auth');
 const path = require("path");
+const { User } = require('../../models');
 
 const storage = multer.diskStorage({
-  destination: '/avatars',
+  destination: 'public/user/upload',
   filename: (req, file, cb) => {
     return cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`)
   }
@@ -33,7 +32,7 @@ router.post('/signup', upload, async (req, res) => {
       password: req.body.password,
       allergy: req.body.allergy,
       fdish: req.body.fdish,
-      avatar: req.body.avatar
+      avatar: req.file.filename
     })
     .then(dbUserData => {
       //get the user logged in after sign up

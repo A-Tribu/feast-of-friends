@@ -35,9 +35,6 @@ const sess = {
 
 app.use(session(sess));
 
-// format time for handlebars
-// const helpers1 = require('./utils/helpers'); 
-
 // get handlebars
 // create custom helpers
 const hbs = exphbs.create({
@@ -51,12 +48,9 @@ app.engine('handlebars', hbs.engine);
 
 app.set('view engine', 'handlebars');
 
-// register new handlebar function
-//hbs.handlebars.registerHelper('whichPartial', function(context, options) { return 'dynamicPartial' });
-
 // express data parsing
-app.use(express.json());
-app.use(express.urlencoded({ extended: true })); 
+app.use(express.urlencoded({ extended: true, limit: "1mb" }));
+app.use(express.json()); 
 
 // points to public/index.html
 app.use(express.static(path.join(__dirname, 'public')));

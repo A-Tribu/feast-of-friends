@@ -32,11 +32,11 @@ Dish.init(
       dishtype: {
         type: DataTypes.STRING,
         allowNull: false,
+      },
+      dishallergy: {
+        type: DataTypes.STRING,
+        allowNull: true,
       }
-    
-    // nuts: {
-    //   type: DataTypes.BOOLEAN
-    // }
   },
   {
     sequelize,

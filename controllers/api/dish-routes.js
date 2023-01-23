@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Dish } = require('../../models');
+const { Dish, Combo } = require('../../models');
 const withAuth = require('../../utils/auth')
 //const sequelize = require('../config/connection');
 //const Dish = require('../../models/Dish');
@@ -11,50 +11,77 @@ const dishData = require('../../seeds/dishes-seeds');
 //res.render - RESERVED FOR HOME ROUTES ONLY
 //API ROUTES ARE ONLY INTERFACING THROUGH DATA
 
-//find all dishes
-router.get('/', (req, res) => {
-    Dish.findAll({})
-        .then(dishData => res.json(dishData))
-        .catch(err => {
-            console.log(err);
-            res.status(500).json(err);
-        })
-});
+// //find all dishes
+// router.get('/', (req, res) => {
+//     Dish.findAll({})
+//         .then(dishData => res.json(dishData))
+//         .catch(err => {
+//             console.log(err);
+//             res.status(500).json(err);
+//         })
+// });
 
 //find one dish item by id
-router.get('/:id', (req, res) => {
-  Dish.findAll({
-          where: {
-              id: req.params.id
-          }
-      })
-      .then(dishData => res.json(dishData))
-      .catch(err => {
-          console.log(err);
-          res.status(500).json(err);
-      })
-});
+// router.get('/:id', (req, res) => {
+//   Dish.findAll({
+//           where: {
+//               id: req.params.id
+//           }
+//       })
+//       .then(dishData => res.json(dishData))
+//       .catch(err => {
+//           console.log(err);
+//           res.status(500).json(err);
+//       })
+// });
 
 
 //POst dish with Auth
-router.post('/', withAuth, (req, res) => {
-  if (req.session) {
+//need to find the correct field input for prepared by and eventid for it to work 
+//correctly with the designated user signing up their dish
+//router.post('/', withAuth, (req,res) => {
+router.post('/', (req, res) => {
+  console.log(req.session)
+  console.log(req.body)
+   //if (req.session) {
     Dish.create({
        dishname: req.body.dishname,
-       preparedby: req.body.preparedby,
-       eventid: req.body.eventid,
+       //static
+       //change preparedby userID
+       preparedby: req.session.userID,
+       //static
+       //change eventid ID to corresponding field/id number this is from a logged in user
+       eventid: req.body.eventID,
        dishtype: req.body.dishtype,
+       dishallergy: req.body.dishallergy
     })
-    .then(dishData => res.json(dishData))
+    .then((dishData) =>{
+      console.log('line 59 dish-routes', dishData);
+
+      //update combo on this dish
+
+      const comboUpdate=  Combo.update({
+        dishID: dishData.dataValues.id,},
+        {
+        where: {
+          userID: req.session.userID,
+          eventID: dishData.dataValues.eventid
+        },
+      });
+      
+      res.status(200).json(dishData);
+    })
     .catch(err => {
+     
       console.log(err);
       res.status(400).json(err);
-    })
-  }
+    });
+
+
 });
 
 
-//PUT 
+//PUT - on events 
 // router.put('/:id', withAuth, (req, res) => {
 //   Dish.update({
 //     dishname: req.body.dishname 
@@ -78,23 +105,23 @@ router.post('/', withAuth, (req, res) => {
 // });
 
 
-router.put('/:id', (req, res) => {
-  // update a category by its `id` value
-  const dishe= dishe.findByPk(req.params.id);
-  Dish.update(dishe)
-  .then(dishData => {
-    console.log(dishData, "dish data works?")
-    if (!dishData){
-      res.status(404).json({ message: 'No Category found, Error in ID'});
-      return;
-    }
-    res.json(dishData);
-    })
-    .catch(err => {
-      console.log(err);
-      res.status(500).json(err);
-    });
-  });
+// router.put('/:id', (req, res) => {
+//   // update a category by its `id` value
+//   const dishe= dishe.findByPk(req.params.id);
+//   Dish.update(dishe)
+//   .then(dishData => {
+//     console.log(dishData, "dish data works?")
+//     if (!dishData){
+//       res.status(404).json({ message: 'No Category found, Error in ID'});
+//       return;
+//     }
+//     res.json(dishData);
+//     })
+//     .catch(err => {
+//       console.log(err);
+//       res.status(500).json(err);
+//     });
+//   });
 
 
 
