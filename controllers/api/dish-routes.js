@@ -40,7 +40,8 @@ const dishData = require('../../seeds/dishes-seeds');
 //need to find the correct field input for prepared by and eventid for it to work 
 //correctly with the designated user signing up their dish
 //router.post('/', withAuth, (req,res) => {
-router.post('/', withAuth, async (req, res) => {
+// router.post('/', withAuth, async (req, res) => {
+router.post('/', (req, res) => {
   console.log(req.session)
   console.log(req.body)
 
