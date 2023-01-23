@@ -6,7 +6,13 @@ const dishFormHandler = async (event) => {
     const dishname = document.querySelector('#famous-dish').value.trim();
     const dishtype = document.querySelector('#dish-type').value.trim();
     const dishallergy = document.querySelector('#dish-allergies').value.trim();
-    const eventID = document.querySelector('#event-id').innerHTML;
+    // const eventID = document.querySelector('#event-id') =
+    // document.getElementById("#event-id") 
+    //(eventID.querySelector("event-id").innerHTML);
+
+    const eventID = DocumentFragment.querySelector('event-id').innerHTML;
+    // const eventID = document.getElementById('#event-id').innerHTML;
+
   
     if (dishname && dishtype && dishallergy) {
       const response = fetch('/api/dish', {
