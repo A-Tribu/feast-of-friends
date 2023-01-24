@@ -74,6 +74,7 @@ router.get('/logout', (req, res) => {
 router.get('/event/:id', withAuth, async (req, res) => {
     //get event info from database
 
+
     try {
         //   get data from database
         const eventData = await Event.findOne({
@@ -114,6 +115,50 @@ router.get('/event/:id', withAuth, async (req, res) => {
         const isOrganizer = (req.session.userID == eventData.organizer) ? true : false;
 
         let isAttendee = false;
+
+
+
+    try {
+        //   get data from database
+        const eventData = await Event.findOne({
+            where: { id: req.params.id },
+            attributes: [
+                'id',
+                'theme',
+                'eventDate',
+                'where',
+                'organizer',
+            ],
+            include: [{
+                model: Combo,
+                include: [{
+                    model: User,
+                    attributes: ['allergy'],
+                }],
+
+            }, User],
+        });
+        //find dishes committed to the event
+        const comboData = await Combo.findAll({
+            where: { eventID: req.params.id, dishID: { [Op.ne]: null } },
+            include: [{
+                model: Dish,
+                include: User
+            }]
+        });
+
+        //find number of attendees to event
+        const attendance = await Combo.count({
+            where: {
+                eventID: req.params.id
+            },
+        });
+
+        //check is organizer of event is the currentUser
+        const isOrganizer = (req.session.userID == eventData.organizer) ? true : false;
+
+        let isAttendee = false;
+
 
         //if data is empty
         //render dashboard with no Events
@@ -204,6 +249,7 @@ router.get('/event/:id', withAuth, async (req, res) => {
             if (peanuts > 0) {
                 peanuts = Math.round((peanuts / attendance) * 100) + '%';
                 allergenSummary.push(`Peanuts ${peanuts} of attendee`);
+
             };
             if (treeNuts > 0) {
                 treeNuts = Math.round((treeNuts / attendance) * 100) + '%';
@@ -221,6 +267,24 @@ router.get('/event/:id', withAuth, async (req, res) => {
                 gluten = Math.round((gluten / attendance) * 100) + '%';
                 allergenSummary.push(`Gluten ${gluten} of attendee`);
             };
+
+            };
+            if (treeNuts > 0) {
+                treeNuts = Math.round((treeNuts / attendance) * 100) + '%';
+                allergenSummary.push(`Tree Nuts ${treeNuts} of attendee`);
+            };
+            if (fish > 0) {
+                fish = Math.round((fish / attendance) * 100) + '%';
+                allergenSummary.push(`Fish ${fish} of attendee`);
+            };
+            if (shellfish > 0) {
+                shellfish = Math.round((shellfish / attendance) * 100) + '%';
+                allergenSummary.push(`Shellfish ${shellfish} of attendee`);
+            };
+            if (gluten > 0) {
+                gluten = Math.round((gluten / attendance) * 100) + '%';
+                allergenSummary.push(`Gluten ${gluten} of attendee`);
+
             if (soy > 0) {
                 soy = Math.round((soy / attendance) * 100) + '%';
                 allergenSummary.push(`Soy ${soy} of attendee`);
@@ -315,6 +379,7 @@ router.get('/dashboard', withAuth, async (req, res) => {
             res.render('dashboard', { loggedIn: req.session.loggedIn, userName: req.session.userName, avatar: user.avatar, name: fullName, userInfo });
         }
         //dashboard with organized potluck but not rsvped to any
+
         else if(result.length && result2.length==0 ){
             const event1 = result.map(event => event.get({plain: true}));
             res.render('dashboard', {event1, loggedIn: req.session.loggedIn, userName: req.session.userName});
@@ -325,6 +390,18 @@ router.get('/dashboard', withAuth, async (req, res) => {
             const event2 = result2.map(event => event.get({plain: true}));
             res.render('dashboard', {event2, loggedIn: req.session.loggedIn, userName: req.session.userName});
   
+
+        else if (result.length && result2.length == 0) {
+            const event1 = result.map(event => event.get({ plain: true }));
+            res.render('dashboard', { event1, loggedIn: req.session.loggedIn, userName: req.session.userName, avatar: user.avatar, name: fullName, userInfo });
+
+        }
+        //dashboard with one rsvped to potluck but not organized event
+        else if (result.length == 0 && result2.length) {
+            const event2 = result2.map(event => event.get({ plain: true }));
+            res.render('dashboard', { event2, loggedIn: req.session.loggedIn, userName: req.session.userName, avatar: user.avatar, name: fullName, userInfo });
+
+
         } //dashboard with both organized and rsvped events
         else {
             const event1 = result.map(event => event.get({ plain: true }));
@@ -340,6 +417,7 @@ router.get('/dashboard', withAuth, async (req, res) => {
 
             res.status(200);
         }
+
   
    
     } catch (err) {
@@ -437,6 +515,17 @@ router.get('/dashboard', withAuth, async (req, res) => {
 //get dish - renders js file, form shows up to fill out info , event is created when
 //button is clicked and dish is added, then table with added dish will show?
 //create-event
+
+
+
+    } catch (err) {
+        res.status(500).json(err);
+    }
+
+});
+
+// get dish  
+
 router.get('/dish', (req, res) => {
 
     res.render('authentication', { whichPartial: function () { return 'dish-form' } });
@@ -447,8 +536,14 @@ router.get('/dish', (req, res) => {
 router.get('/download/:id', withAuth, async (req, res) => {
 
     const html = fs.readFileSync(path.join(__dirname, '../views/food-label-template.html'), 'utf-8');
+
     const filename = req.params.id+ '_doc' + '.pdf';
     
+
+    const filename = req.params.id + '_doc' + '.pdf';
+    const eventID= req.params.id;
+
+
     console.log("LINE 394 HOME-ROUTES PDF PRINT");
 
     //get dishes info through combo

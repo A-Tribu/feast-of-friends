@@ -27,8 +27,18 @@ const upload = multer({
 router.post('/signup', upload, async (req, res) => {
   console.log(req.body);
 
+
     // const allergies = req.body.allergy;
     // const str = allergies;    
+
+
+    // const allergies = req.body.allergy;
+    // const str = allergies.join();    
+
+    const allergies = req.body.allergy;
+    const str = allergies;    
+
+
 
     await User.create({
       firstName: req.body.firstName,
