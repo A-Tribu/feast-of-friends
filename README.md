@@ -31,9 +31,15 @@ This app is also deployed on Heroku and you can access it through this link: htt
 
 ## Usage
 
-![alt text](./screenshots/Screenshot%202023-01-23%20at%205.04.29%20PM.png)
-![alt text](./screenshots/potluck%20screenshot%20at%20dish%20sign%20up.png)
-![alt text](./screenshots/Potluck%20screenshot%20at%20dish%20added.png)
+![alt text](./screenshots/Screenshot%202023-01-23%20at%206.00.58%20PM.png)
+![alt text](./screenshots/Screenshot%202023-01-23%20at%206.14.24%20PM.png)
+![alt text](./screenshots/Screenshot%202023-01-23%20at%206.15.38%20PM.png)
+![alt text](./screenshots/Screenshot%202023-01-23%20at%206.15.49%20PM.png)
+![alt text](./screenshots/Screenshot%202023-01-23%20at%206.16.24%20PM.png)
+![alt text](./screenshots/Screenshot%202023-01-23%20at%206.16.37%20PM.png)
+![alt text](./screenshots/Screenshot%202023-01-23%20at%206.17.07%20PM.png)
+![alt text](./screenshots/Screenshot%202023-01-23%20at%206.17.18%20PM.png)
+
 
 ## Credits
 
