@@ -90,7 +90,7 @@ this application could benefit from more personalized demographics, sort of like
 you can also implement any special features to this application through a feature branch and demonstrating how the feature enhances the application. All changes must be approved.
 
 ## Tests
-VIDEO SUBMISSION LINK: 
+VIDEO SUBMISSION LINK: https://drive.google.com/file/d/1p2SdTIq0ASacJHY0SlaDSEkNCGPMhwsP/view
 
 Currently we are testing the improvement of this application thorugh Heroku.
 Future test can be done through deployment and performance of Heroku compatibility.
