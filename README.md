@@ -78,12 +78,12 @@ Our projects features:
 - express-handlebars
 - connect-session sequelize
 - handlebars
-- clipboard
 - boostrap icons
 - handlebars-helper
 - uuid
 - Multer (as new technology)
-- PDF implementation (as new technology)
+- cloneNode and Window.print() (as new technology)
+- clipboard (as new technology)
 
 
 ## How to Contribute
